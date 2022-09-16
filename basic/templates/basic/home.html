@@ -26,7 +26,13 @@
                                 <a href="{% url 'edit' obj.id %}">
                                     <button class="btn btn-warning"> Edit</button>
                                 </a>
-                            </td>                       
+                            </td> 
+                            <td class="px-4">
+                                <form action="{% url 'delete' obj.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger" type="submit" value="DELETE" > Remove</button>
+                                </form>
+                            </td>                      
                         </tr>    
                     {% endfor %}
                 </tbody>

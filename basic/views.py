@@ -38,7 +38,7 @@ class homeView(LoginRequiredMixin, ListView):
     template_name = 'basic/home.html'
 
 
-# Create a new Vehicle record
+# Create a new vehicle record
 class CreateView( LoginRequiredMixin, CreateView):
     premission_required = 'vehicle.add_vehicle'
     model = Vehicle
@@ -50,12 +50,13 @@ class CreateView( LoginRequiredMixin, CreateView):
         return reverse('create')
     
 
-# Show a perticular record
+# Show a perticular vehicle record
 class VehicleView(LoginRequiredMixin, DetailView):
     model = Vehicle
     template_name = 'basic/detail.html'
     context_object_name = 'object'
 
+# Edit a particular vehicle record
 class VehicleEditView( LoginRequiredMixin, UpdateView):
     # permission_required = 'Vehicle.change_vehicle'
     model = Vehicle
@@ -65,6 +66,14 @@ class VehicleEditView( LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         messages.success(self.request, 'Record Updated Successfully')
         return super().get_success_url()
+
+class VehicleDeleteView(LoginRequiredMixin, DeleteView):
+    model = Vehicle
+    
+    def get_success_url(self):
+        messages.success(self.request, 'Record Deleted')
+        return '/home'
+    
 
 
 
