@@ -1,5 +1,11 @@
 {% extends 'basic/base.html' %}
 {% block content %}
+
+{% if messages %}
+{% for msg in messages %}
+<span style="color:rgb(19, 199, 19)" >{{msg}}</span>
+{% endfor %}
+{% endif %}
     <form action="" method="post">
         {% csrf_token %}
     <div class="row justify-content-center mt-3">

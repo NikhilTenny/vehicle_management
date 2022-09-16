@@ -8,7 +8,7 @@ class Vehicle(models.Model):
     types = (
         ('2','Two Wheeler'),
         ('3','Three Wheeler'),
-        ('$','Four Wheeler')
+        ('4','Four Wheeler')
     )
 
     number = models.CharField(max_length=50, blank=False, validators=[alpha_numeric], unique=True)
@@ -18,4 +18,7 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return self.number;
+    
+    def get_absolute_url(self):
+        return f"/home/{self.id}"
 

@@ -6,26 +6,32 @@
                 <button class="btn btn-primary">Create a Record</button>
             </a>
         </div>
-
-        <table>
-            <thead>
-                <th>Vehicle Number</th>
-                <th>Type</th>
-                <th>Model</th>
-                <th>Description</th>
-            </thead>
-            <tbody>
-                
-                {% for obj in object_list %}
-                    <tr>
-                        <td>{{obj.number}}</td>
-                        <td>{{obj.v_type}}</td>
-                        <td>{{obj.model}}</td>
-                        <td>{{obj.desc}}</td>                        
-                    </tr>    
-                {% endfor %}
-            </tbody>
-        </table>
+        <center>
+            <table class="mt-5">
+                <thead>
+                    <th class="px-4">Vehicle Number</th>
+                    <th class="px-4">Type</th>
+                    <th class="px-4">Model</th>
+                    <th class="px-4">Description</th>
+                </thead>
+                <tbody>
+                    
+                    {% for obj in object_list %}
+                        <tr>
+                            <td class="px-4">{{obj.number}}</td>
+                            <td class="px-4">{{obj.v_type}}</td>
+                            <td class="px-4">{{obj.model}}</td>
+                            <td class="px-4">{{obj.desc}}</td> 
+                            <td class="px-4">
+                                <a href="{% url 'edit' obj.id %}">
+                                    <button class="btn btn-warning"> Edit</button>
+                                </a>
+                            </td>                       
+                        </tr>    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </center>
         
     </div>
 

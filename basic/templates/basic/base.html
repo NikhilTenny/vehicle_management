@@ -16,7 +16,7 @@
             {% if user.username %}
             <div class="row">  <!-- Username and logout button-->
                 <span class="col-auto">
-                Welcome <h6>{{user.username}}</h6>
+                Welcome, <h6>{{user.username}}</h6>
                 </span>
                 <a href="{% url 'logout' %}" class="col-auto">
                     <button class="btn btn-secondary">Log out</button>

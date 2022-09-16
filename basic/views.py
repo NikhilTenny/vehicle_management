@@ -1,14 +1,14 @@
-from re import template
+from multiprocessing import get_context
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import LoginForm, createForm
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
 from .models import Vehicle
 from django.urls import reverse
+from django.core.exceptions import PermissionDenied
 
 
 #User login page with login form
@@ -33,22 +33,39 @@ def loginView(request):
 
 #Home page
 class homeView(LoginRequiredMixin, ListView): 
+    
     model = Vehicle
     template_name = 'basic/home.html'
 
+
 # Create a new Vehicle record
-class CreateView(LoginRequiredMixin, CreateView):
+class CreateView( LoginRequiredMixin, CreateView):
+    premission_required = 'vehicle.add_vehicle'
     model = Vehicle
     template_name = 'basic/create.html'
     form_class = createForm
+
     def get_success_url(self):
+        messages.success(self.request, 'Record created Successfully')
         return reverse('create')
+    
 
 # Show a perticular record
 class VehicleView(LoginRequiredMixin, DetailView):
     model = Vehicle
     template_name = 'basic/detail.html'
     context_object_name = 'object'
+
+class VehicleEditView( LoginRequiredMixin, UpdateView):
+    # permission_required = 'Vehicle.change_vehicle'
+    model = Vehicle
+    template_name = 'basic/edit.html'
+    form_class = createForm
+
+    def get_success_url(self):
+        messages.success(self.request, 'Record Updated Successfully')
+        return super().get_success_url()
+
 
 
 
