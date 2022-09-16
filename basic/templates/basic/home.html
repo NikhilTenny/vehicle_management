@@ -1,0 +1,32 @@
+{% extends 'basic/base.html' %}
+{% block content %}
+    <div>
+        <div class="row justify-content-center">
+            <a href="{% url 'create' %}" class="col-auto">
+                <button class="btn btn-primary">Create a Record</button>
+            </a>
+        </div>
+
+        <table>
+            <thead>
+                <th>Vehicle Number</th>
+                <th>Type</th>
+                <th>Model</th>
+                <th>Description</th>
+            </thead>
+            <tbody>
+                
+                {% for obj in object_list %}
+                    <tr>
+                        <td>{{obj.number}}</td>
+                        <td>{{obj.v_type}}</td>
+                        <td>{{obj.model}}</td>
+                        <td>{{obj.desc}}</td>                        
+                    </tr>    
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'basic/base.html' %}
+{% block content %}
+
+<div class="my-3"> <!--Heading-->
+    <center>
+        <h2>Vehicle Management Portal</h2>
+    </center>
+</div><!--Heading End-->
+
+<div class=" row mt-5 "><!--Login form-->
+    <center>
+        <form action="" method="post">
+            {% csrf_token %}
+            <!-- {{form}} -->
+            <div class="col-3 bg-light py-4 px-4 rounded shadow">
+                <h4 class=" text-center mb-3  ">LOGIN</h4>
+                {% if messages %}
+                {% for msg in messages %}
+                <span style="color:red;" >{{msg}}</span>
+                {% endfor %}
+                {% endif %}
+                <div class="form-floating mb-3">
+                    {{form.username}}
+                    <label for="floatingInput">Email address</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    {{form.password}}
+                    <label for="floatingPassword">Password</label>
+                  </div>
+    
+                  <div class="d-grid">
+                    <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">LOG IN</button>
+                  </div>
+            </div>
+        </form>
+    </center>
+</div><!--Login form end-->
+
+
+{% endblock content %}
