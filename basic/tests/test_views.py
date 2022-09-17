@@ -11,19 +11,28 @@ class TestLoginView(TestCase):
         self.client = Client()
         self.url = reverse('login_page')
         self.user = get_user_model()
+        self.password = 'fortesting'
         self.credentials = {
             'username': 'testuser',
-            'password': 'fortesting'}
+            'password':'fortesting'
+            }
         self.test_user = self.user.objects.create(**self.credentials)
+        self.test_user.set_password(self.password)
+        self.test_user.is_active = True
+        self.test_user.save()
+
 
 
     def test_loginView_GET(self):
         response = self.client.get(self.url)
+
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'basic/login.html')
 
     def test_loginView_POST_with_valid_credentials(self):
         response = self.client.post(self.url, self.credentials, follow=True)
+
+
         self.assertTrue(response.context['user'].is_authenticated)
         self.assertTemplateUsed(response,'basic/home.html')
     
@@ -32,6 +41,7 @@ class TestLoginView(TestCase):
             'username':'invalidusername',
             'password': 'invalidPass'}, 
             follow=True)
+
         self.assertFalse(response.context['user'].is_authenticated)
         self.assertTemplateUsed(response,'basic/login.html')    
 
@@ -41,22 +51,28 @@ class TestHomeView(TestCase):
         self.url = reverse('home_page')
         self.login_url = reverse('login_page')
         self.user = get_user_model()
-        self.client = Client()
+        self.password = 'fortesting'
         self.credentials = {
             'username': 'testuser',
-            'password': 'fortesting'}
+            'password':'fortesting'
+            }
         self.test_user = self.user.objects.create(**self.credentials)
+        self.test_user.set_password(self.password)
+        self.test_user.is_active = True
         self.test_user.save()
 
     def test_homeView_user_logged_in(self):
         # Login a user
-        self.client.post(self.login_url, self.credentials, follow=True)        
+        self.client.post(self.login_url, self.credentials, follow=True)  
+
         response = self.client.get(self.url)
+
         self.assertTemplateUsed(response, 'basic/home.html')
         self.assertEquals(response.status_code, 200)  
 
     def test_homeView_no_user_logged_in(self):
         response = self.client.get(self.url)
+
         self.assertEquals(response.status_code, 302)  
 
 
@@ -66,29 +82,56 @@ class TestCreateView(TestCase):
         self.url = reverse('create')
         self.login_url = reverse('login_page')
         self.user = get_user_model()
-        self.client = Client()
+        self.password = 'fortesting'
         self.credentials = {
             'username': 'testuser',
-            'password': 'fortesting'
+            'password':'fortesting'
             }
         self.test_user = self.user.objects.create(**self.credentials)
+        self.test_user.set_password(self.password)
+        self.test_user.is_active = True
         self.test_user.save()
+        self.formData = {
+            'number': 'KL17G4433',
+            'v_type': '3',
+            'model': 'Honda',
+            'desc':'A good auto'
+        }
+
     
     def test_CreateView_no_user_logged_in(self):
         response = self.client.get(self.url)
+
         self.assertEquals(response.status_code, 302) 
 
     def test_CreateView_user_logged_in(self):
-        # Login a user
+        # Login a superuser
         self.test_user.is_superuser = True
         self.test_user.save()
         self.client.post(self.login_url, self.credentials, follow=True)  
+
         response = self.client.get(self.url)
+
         self.assertTemplateUsed(response, 'basic/create.html')
         self.assertEquals(response.status_code, 200) 
 
     def test_CreateView_user_not_superuser(self):
         # Login a user
         self.client.post(self.login_url, self.credentials, follow=True)  
+
         response = self.client.get(self.url)
+
         self.assertEquals(response.status_code, 403) 
+    
+    def test_CreateView_POST_user_logged_in(self):
+        # Login a superuser
+        self.test_user.is_superuser = True
+        self.test_user.save()
+        self.client.post(self.login_url, self.credentials, follow=True)
+
+        response = self.client.post(self.url, self.formData, follow=True)
+
+        self.assertTemplateUsed(response, 'basic/create.html')
+        self.assertEquals('Honda', Vehicle.objects.get(number='KL17G4433').model)
+
+

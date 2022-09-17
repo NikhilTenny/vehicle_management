@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import LoginForm, createForm
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
@@ -16,11 +15,7 @@ def loginView(request):
         if form.is_valid():
             uname = form.cleaned_data['username']
             pswd = form.cleaned_data['password']
-            try:
-                user = get_user_model().objects.get(username = uname, password = pswd)
-            except:
-                user = None
-            # user = authenticate(request, username = uname, password = pswd)
+            user = authenticate(request, username = uname, password = pswd)
             if user is not None:
                 login(request, user)
                 return redirect('home_page')
