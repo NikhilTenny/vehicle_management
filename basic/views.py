@@ -1,6 +1,5 @@
-from multiprocessing import get_context
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -17,14 +16,23 @@ def loginView(request):
         if form.is_valid():
             uname = form.cleaned_data['username']
             pswd = form.cleaned_data['password']
-            user = authenticate(request, username = uname, password = pswd)
+            try:
+                user = get_user_model().objects.get(username = uname, password = pswd)
+            except:
+                user = None
+            # user = authenticate(request, username = uname, password = pswd)
             if user is not None:
                 login(request, user)
                 return redirect('home_page')
             else:
                 form = LoginForm()
                 messages.error(request,'Invalid username or password')
-                return render(request,'basic/login.html',{'form':form})      
+                return render(request,'basic/login.html',{'form':form})   
+        else:
+            context_data = {}
+            context_data['form'] = LoginForm
+            return render(request, 'basic/login.html', context_data)
+
     else:
         context_data = {}
         context_data['form'] = LoginForm
@@ -37,7 +45,7 @@ class homeView(LoginRequiredMixin, ListView):
 
     def get_context_data(self):
         context = {}
-        objects = Vehicle.objects.all()
+        objects = Vehicle.objects.all().order_by('id')
         #Pagination
         page_obj = Paginator(objects, 2)
         page = self.request.GET.get('page')
