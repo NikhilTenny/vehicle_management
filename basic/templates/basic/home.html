@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     
-                    {% for obj in object_list %}
+                    {% for obj in objects %}
                         <tr>
                             <td class="px-4">{{obj.number}}</td>
                             <td class="px-4">{{obj.v_type}}</td>
@@ -61,6 +61,20 @@
                     {% endfor %}
                 </tbody>
             </table><!-- Table end -->
+
+            {% if objects.has_previous %}
+                <a href="?page=1">First page</a>
+                <a href="?page={{ objects.previous_page_number }}">Previous page</a>
+            {% endif %}
+
+            Page No: {{objects.number}}
+
+            {% if objects.has_next %}
+                <a href="?page={{ objects.next_page_number }}">Next page</a>
+                <a href="?page={{ objects.paginator.num_pages }}">Last page</a>
+            {% endif %}
+
+
         </center>
 
 

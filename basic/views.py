@@ -8,8 +8,7 @@ from .forms import LoginForm, createForm
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
 from .models import Vehicle
 from django.urls import reverse
-from django.core.exceptions import PermissionDenied
-
+from django.core.paginator import Paginator
 
 #User login page with login form
 def loginView(request):
@@ -35,6 +34,15 @@ def loginView(request):
 class homeView(LoginRequiredMixin, ListView):    
     model = Vehicle
     template_name = 'basic/home.html'
+
+    def get_context_data(self):
+        context = {}
+        objects = Vehicle.objects.all()
+        #Pagination
+        page_obj = Paginator(objects, 2)
+        page = self.request.GET.get('page')
+        context['objects'] = page_obj.get_page(page)
+        return context
 
 
 # Create a new vehicle record
