@@ -1,5 +1,16 @@
 {% extends 'basic/base.html' %}
 {% block content %}
+
+{% for message in messages %} 
+<div class="container-fluid p-0">
+  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
+{% endfor %}
+            
+
     <div>
         <div class="row justify-content-center">
             <a href="{% url 'create' %}" class="col-auto">
@@ -7,7 +18,7 @@
             </a>
         </div>
         <center>
-            <table class="mt-5">
+            <table class="mt-5"> <!-- Table containing Vehicle records -->
                 <thead>
                     <th class="px-4">Vehicle Number</th>
                     <th class="px-4">Type</th>
@@ -23,6 +34,11 @@
                             <td class="px-4">{{obj.model}}</td>
                             <td class="px-4">{{obj.desc}}</td> 
                             <td class="px-4">
+                                <a href="{% url 'detail' obj.id %}">
+                                    <button class="btn btn-primary"> View</button>
+                                </a>
+                            </td> 
+                            <td class="px-4">
                                 <a href="{% url 'edit' obj.id %}">
                                     <button class="btn btn-warning"> Edit</button>
                                 </a>
@@ -30,15 +46,22 @@
                             <td class="px-4">
                                 <form action="{% url 'delete' obj.id %}" method="post">
                                     {% csrf_token %}
-                                    <button class="btn btn-danger" type="submit" value="DELETE" > Remove</button>
+                                    <button 
+                                        class="btn btn-danger" 
+                                        type="submit" 
+                                        value="DELETE" 
+                                        onclick="alert('Are you sure?');"
+                                    > 
+                                        Remove
+                                    </button>
                                 </form>
-                            </td>                      
+                            </td> 
+                                                 
                         </tr>    
                     {% endfor %}
                 </tbody>
-            </table>
+            </table><!-- Table end -->
         </center>
-        
-    </div>
+
 
 {% endblock %}

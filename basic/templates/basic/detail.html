@@ -1,10 +1,17 @@
 {% extends 'basic/base.html' %}
 {% block content %}
+
 {% if messages %}
-{% for msg in messages %}
-<span style="color:rgb(19, 199, 19)" >{{msg}}</span>
+{% for message in messages %} 
+<div class="container-fluid p-0">
+  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
 {% endfor %}
 {% endif %}
+
     {{object.number}}
 
 {% endblock %}

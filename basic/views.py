@@ -32,8 +32,7 @@ def loginView(request):
         return render(request, 'basic/login.html', context_data)
 
 #Home page
-class homeView(LoginRequiredMixin, ListView): 
-    
+class homeView(LoginRequiredMixin, ListView):    
     model = Vehicle
     template_name = 'basic/home.html'
 
@@ -48,6 +47,7 @@ class CreateView( LoginRequiredMixin, CreateView):
     def get_success_url(self):
         messages.success(self.request, 'Record created Successfully')
         return reverse('create')
+
     
 
 # Show a perticular vehicle record
@@ -67,6 +67,7 @@ class VehicleEditView( LoginRequiredMixin, UpdateView):
         messages.success(self.request, 'Record Updated Successfully')
         return super().get_success_url()
 
+# Delete a particular vehicle record 
 class VehicleDeleteView(LoginRequiredMixin, DeleteView):
     model = Vehicle
     
