@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import LoginForm, createForm
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
 from .models import Vehicle
@@ -38,17 +38,21 @@ class homeView(LoginRequiredMixin, ListView):
 
 
 # Create a new vehicle record
-class CreateView( LoginRequiredMixin, CreateView):
+class CreateView( LoginRequiredMixin, UserPassesTestMixin, CreateView):
     premission_required = 'vehicle.add_vehicle'
     model = Vehicle
     template_name = 'basic/create.html'
     form_class = createForm
 
+    # Only superuser can create new record
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        return False
     def get_success_url(self):
         messages.success(self.request, 'Record created Successfully')
         return reverse('create')
 
-    
 
 # Show a perticular vehicle record
 class VehicleView(LoginRequiredMixin, DetailView):
@@ -56,21 +60,34 @@ class VehicleView(LoginRequiredMixin, DetailView):
     template_name = 'basic/detail.html'
     context_object_name = 'object'
 
+
 # Edit a particular vehicle record
-class VehicleEditView( LoginRequiredMixin, UpdateView):
+class VehicleEditView( LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     # permission_required = 'Vehicle.change_vehicle'
     model = Vehicle
     template_name = 'basic/edit.html'
     form_class = createForm
+
+    # Only superuser and staff user can create new record
+    def test_func(self):
+        if self.request.user.is_superuser or self.request.user.is_staff:
+            return True
+        return False
 
     def get_success_url(self):
         messages.success(self.request, 'Record Updated Successfully')
         return super().get_success_url()
 
 # Delete a particular vehicle record 
-class VehicleDeleteView(LoginRequiredMixin, DeleteView):
+class VehicleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Vehicle
     
+    # Only superuser can create new record
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        return False
+
     def get_success_url(self):
         messages.success(self.request, 'Record Deleted')
         return '/home'
