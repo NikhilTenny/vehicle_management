@@ -1,17 +1,37 @@
 {% extends 'basic/base.html' %}
 {% block content %}
 
-{% if messages %}
-{% for message in messages %} 
-<div class="container-fluid p-0">
-  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="row justify-content-center">
+  {% for message in messages %} 
+  <div class="container-fluid p-0 col-6">
+      <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-6">
+    <div class="mb-3">
+      <label  class="form-label"><h6>Number</h6></label>
+      <input type="text" class="form-control"  value="{{object.number}}" readonly>
+    </div>
+    <div class="mb-3">
+      <label  class="form-label"><h6>Model</h6></label>
+      <input type="text" class="form-control"  value="{{object.model}}" readonly>
+    </div>
+    <div class="mb-3">
+      <label  class="form-label"><h6>Type</h6></label>
+      <input type="text" class="form-control"  value="{{object.v_type}}" readonly>
+    </div>
+    <div class="mb-3">
+      <label  class="form-label"><h6>Description</h6></label>
+      <textarea class="form-control" rows="5"  readonly>{{object.desc}}</textarea>
+    </div>
   </div>
 </div>
-{% endfor %}
-{% endif %}
-
-    {{object.number}}
+    
 
 {% endblock %}

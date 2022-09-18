@@ -1,21 +1,25 @@
 {% extends 'basic/base.html' %}
 {% block content %}
 
-{% for message in messages %} 
-<div class="container-fluid p-0">
-  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+<div class="row justify-content-center">
+    {% for message in messages %} 
+    <div class="container-fluid p-0 col-8">
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
             
 
     <div>
         <div class="row justify-content-center">
+            {%if user.is_superuser%}
             <a href="{% url 'create' %}" class="col-auto">
                 <button class="btn btn-primary">Create a Record</button>
             </a>
+            {% endif %}
         </div>
         <center>
             <div class="row justify-content-center">
@@ -25,8 +29,14 @@
                             <th class="px-4" scope="col">Vehicle Number</th>
                             <th class="px-4" scope="col">Model</th>
                             <th class="px-4" scope="col"></th>
+                            {%if user.is_superuser or user.is_staff%}
                             <th class="px-4" scope="col"></th>
+                            {%if user.is_superuser%}
                             <th class="px-4" scope="col"></th>
+                            {% endif %} 
+                            {% endif %} 
+
+
 
         
         
@@ -38,15 +48,18 @@
                                 <td class="px-4">{{obj.number}}</td>
                                 <td class="px-4">{{obj.model}}</td>
                                 <td class="px-4">
-                                    <a href="">
+                                    <a href="{% url 'detail' obj.id %}">
                                         <button class="btn btn-primary"> View</button>
                                     </a>
                                 </td> 
+                                {%if user.is_superuser or user.is_staff%}
+
                                 <td class="px-4">
                                     <a href="{% url 'edit' obj.id %}">
                                         <button class="btn btn-warning"> Edit</button>
                                     </a>
                                 </td> 
+                                {%if user.is_superuser%}
                                 <td class="px-4">
                                     <form action="{% url 'delete' obj.id %}" method="post">
                                         {% csrf_token %}
@@ -59,7 +72,9 @@
                                             Remove
                                         </button>
                                     </form>
-                                </td> 
+                                </td>
+                                {% endif %} 
+                                {% endif %}
                                                         
                             </tr> 
                              

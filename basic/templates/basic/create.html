@@ -20,21 +20,23 @@
         <div class="col-lg-6 col-md-8 ">
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="">Number</label>
+                    
+                    <label for="">Number <span style="color:brown;">{{form.number.errors}}</span></label>                    
                     {{form.number}}
                 </div>
                 <div class="col-6">
-                    <label for="">Type</label>
+                    <label for="">Type <span style="color:brown;">{{form.v_type.errors}}</span></label>
                     {{form.v_type}}
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="">Model</label>
+                    
+                    <label for="">Model<span style="color:brown;">{{form.model.errors}}</span></label>
                     {{form.model}}
                 </div>
                 <div class="col-6">
-                    <label for="">Description</label>
+                    <label for="">Description<span style="color:brown;">{{form.desc.errors}}</span></label>
                     {{form.desc}}
 
                 </div>
