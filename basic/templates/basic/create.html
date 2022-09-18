@@ -2,46 +2,48 @@
 {% block content %}
 
 
-{% for message in messages %} 
-<div class="container-fluid p-0">
-  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-</div>
-{% endfor %}
+
     <form action="" method="post">
         {% csrf_token %}
-    <div class="row justify-content-center mt-3">
-        <div class="col-auto">
-            <div class="row">
-                <div class="col">
+    <div class="row justify-content-center">
+        {% for message in messages %} 
+        <div class="container-fluid p-0 col-6">
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center  mt-3">
+        
+        <div class="col-lg-6 col-md-8 ">
+            <div class="row mb-3">
+                <div class="col-6">
                     <label for="">Number</label>
-                    {{form.number.errors}}
                     {{form.number}}
                 </div>
-                <div class="col">
-                    <label for="">type</label><br>
-                    {{form.v_type.errors}}
+                <div class="col-6">
+                    <label for="">Type</label>
                     {{form.v_type}}
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <label for="">model</label>
-                    {{form.model.errors}}
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="">Model</label>
                     {{form.model}}
                 </div>
-                <div class="col">
-                    <label for="">Description</label><br>
-                    {{form.desc.errors}}
+                <div class="col-6">
+                    <label for="">Description</label>
                     {{form.desc}}
+
                 </div>
             </div>
+                    
         </div>
     </div>
     <center>
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary mt-3" type="submit">
             Create
         </button>
     </center>

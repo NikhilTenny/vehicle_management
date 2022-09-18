@@ -17,6 +17,24 @@ class LoginForm(forms.Form):
 
 # Form to create a new record in vehicle model
 class createForm(forms.ModelForm):
+    number = forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class': 'form-control',
+        }))
+    v_type = forms.CharField(widget=forms.Select(choices=Vehicle.types,
+        attrs={
+        'class': 'form-control',
+        }))
+    model = forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class': 'form-control',
+        }))
+    desc = forms.CharField(widget=forms.Textarea(
+        attrs={
+        'class': 'form-control',
+        'rows': 4, 
+        'cols': 30,
+        }))
     class Meta:
         model = Vehicle
         fields = ['number', 'v_type', 'model', 'desc']
@@ -29,6 +47,24 @@ class createForm(forms.ModelForm):
         return number
 
 class EditForm(forms.ModelForm):
+    number = forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class': 'form-control',
+        }))
+    v_type = forms.CharField(widget=forms.Select(choices=Vehicle.types,
+        attrs={
+        'class': 'form-control',
+        }))
+    model = forms.CharField(widget=forms.TextInput(
+        attrs={
+        'class': 'form-control',
+        }))
+    desc = forms.CharField(widget=forms.Textarea(
+        attrs={
+        'class': 'form-control',
+        'rows': 4, 
+        'cols': 30,
+        }))
     class Meta:
         model = Vehicle
         fields = ['number', 'v_type', 'model', 'desc']
