@@ -18,60 +18,67 @@
             </a>
         </div>
         <center>
-            <table class="mt-5"> <!-- Table containing Vehicle records -->
-                <thead>
-                    <th class="px-4">Vehicle Number</th>
-                    <th class="px-4">Type</th>
-                    <th class="px-4">Model</th>
-                    <th class="px-4">Description</th>
-                </thead>
-                <tbody>
-                    
-                    {% for obj in objects %}
-                        <tr>
-                            <td class="px-4">{{obj.number}}</td>
-                            <td class="px-4">{{obj.v_type}}</td>
-                            <td class="px-4">{{obj.model}}</td>
-                            <td class="px-4">{{obj.desc}}</td> 
-                            <td class="px-4">
-                                <a href="{% url 'detail' obj.id %}">
-                                    <button class="btn btn-primary"> View</button>
-                                </a>
-                            </td> 
-                            <td class="px-4">
-                                <a href="{% url 'edit' obj.id %}">
-                                    <button class="btn btn-warning"> Edit</button>
-                                </a>
-                            </td> 
-                            <td class="px-4">
-                                <form action="{% url 'delete' obj.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button 
-                                        class="btn btn-danger" 
-                                        type="submit" 
-                                        value="DELETE" 
-                                        onclick="alert('Are you sure?');"
-                                    > 
-                                        Remove
-                                    </button>
-                                </form>
-                            </td> 
-                                                 
-                        </tr>    
-                    {% endfor %}
-                </tbody>
-            </table><!-- Table end -->
+            <div class="row justify-content-center">
+                <div class="col-8">
+                    <table class="mt-5 table table-striped"> <!-- Table containing Vehicle records -->
+                        <thead>
+                            <th class="px-4" scope="col">Vehicle Number</th>
+                            <th class="px-4" scope="col">Model</th>
+                            <th class="px-4" scope="col"></th>
+                            <th class="px-4" scope="col"></th>
+                            <th class="px-4" scope="col"></th>
+
+        
+        
+                        </thead>
+                        <tbody>
+                            
+                            {% for obj in objects %}
+                            <tr>
+                                <td class="px-4">{{obj.number}}</td>
+                                <td class="px-4">{{obj.model}}</td>
+                                <td class="px-4">
+                                    <a href="">
+                                        <button class="btn btn-primary"> View</button>
+                                    </a>
+                                </td> 
+                                <td class="px-4">
+                                    <a href="{% url 'edit' obj.id %}">
+                                        <button class="btn btn-warning"> Edit</button>
+                                    </a>
+                                </td> 
+                                <td class="px-4">
+                                    <form action="{% url 'delete' obj.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button 
+                                            class="btn btn-danger" 
+                                            type="submit" 
+                                            value="DELETE" 
+                                            onclick="alert('Are you sure?');"
+                                        > 
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td> 
+                                                        
+                            </tr> 
+                             
+                            {% endfor %}
+                        </tbody>
+                    </table><!-- Table end -->
+                </div> 
+            </div>
 
             {% if objects.has_previous %}
-                <a href="?page=1">First page</a>
-                <a href="?page={{ objects.previous_page_number }}">Previous page</a>
+                <a href="?page=1" class="mr-3"><button class="btn btn-outline-primary btn-sm "> <<</button></a>
+                <a href="?page={{ objects.previous_page_number }}"><button class="btn btn-outline-primary btn-sm"> Previous page</button></a>
             {% endif %}
 
-            Page No: {{objects.number}}
+            <button class="btn btn-primary btn-sm"> {{objects.number}}</button>
 
             {% if objects.has_next %}
-                <a href="?page={{ objects.next_page_number }}">Next page</a>
-                <a href="?page={{ objects.paginator.num_pages }}">Last page</a>
+                <a href="?page={{ objects.next_page_number }}"><button class="btn btn-outline-primary btn-sm"> Next page</button></a>
+                <a href="?page={{ objects.paginator.num_pages }}"><button class="btn btn-outline-primary btn-sm"> >></button></a>
             {% endif %}
 
 

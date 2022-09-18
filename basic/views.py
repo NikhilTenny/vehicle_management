@@ -42,7 +42,7 @@ class homeView(LoginRequiredMixin, ListView):
         context = {}
         objects = Vehicle.objects.all().order_by('id')
         #Pagination
-        page_obj = Paginator(objects, 2)
+        page_obj = Paginator(objects, 7)
         page = self.request.GET.get('page')
         context['objects'] = page_obj.get_page(page)
         return context
