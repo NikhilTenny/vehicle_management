@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import LoginForm, createForm
+from .forms import LoginForm, createForm, EditForm
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
 from .models import Vehicle
 from django.urls import reverse
@@ -78,7 +78,7 @@ class VehicleEditView( LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     # permission_required = 'Vehicle.change_vehicle'
     model = Vehicle
     template_name = 'basic/edit.html'
-    form_class = createForm
+    form_class = EditForm
 
     # Only superuser and staff user can edit a record
     def test_func(self):

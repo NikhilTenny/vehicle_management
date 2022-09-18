@@ -28,6 +28,11 @@ class createForm(forms.ModelForm):
             raise ValidationError("Number already exists")
         return number
 
+class EditForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = ['number', 'v_type', 'model', 'desc']
+
 
 
 
